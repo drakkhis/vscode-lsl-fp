@@ -466,7 +466,7 @@
 
 
 
-    "attack Event": {
+    "attach Event": {
         "prefix": "attach",
         "body": [
             "attach( key ${1:id} )",
@@ -645,7 +645,17 @@
             "}"
         ],
         "description": "29 Event ID Triggered when the script receives a link message that was sent by a call to llMessageLinked. llMessageLinked is used to send messages from one script to another.\n• integer sender_num – The link number of the prim that contained the script that called llMessageLinked.\n• integer num – Second parameter of the llMessageLinked call.\n• string str – The message that was sent from the script that called llMessageLinked.\n• key id – Fourth parameter of the llMessageLinked call.\nid is often used as a second string field (in LSL the key type is implemented as a string with just custom operators). Typecasting between string and key types has no effect on the data contained. The sizes of str and id are only limited by available script memory."
-    },
+    },   
+    "linkset_data Event": {
+        "prefix": "linkset_data",
+        "body": [
+            "linkset_data( integer ${1:action}, string ${2:name}, string ${3:value} )",
+            "{",
+            "\t$0",
+            "}"
+        ],
+        "description": "The linkset_data event fires in all scripts in a linkset whenever the datastore has been modified through a call to one of the llLinksetData functions."
+    },    
     "listen Event": {
         "prefix": "listen",
         "body": [
@@ -928,6 +938,13 @@
         ],
         "description": "integer llCeil( float val );\n\n 10 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nReturns an integer that is the integer value of val rounded towards positive infinity (return >= val).\n• float val – Any valid float value\n"
     },
+    "llChar": {
+        "prefix": "llChar",
+        "body": [
+           "llChar(${1:val})$0"
+        ],
+        "description": "string llChar( integer val );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nConstruct a single character string from the supplied Unicode value.\ninteger val – Unicode value for character\n"
+    },
     "llDetectedPos": {
         "prefix": "llDetectedPos",
         "body": [
@@ -1089,6 +1106,13 @@
         ],
         "description": "llStopSound( );\n\n 92 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nStops the attached sound(s) currently playing, if they were started by llLoopSound"
     },
+    "llLinkStopSound": {
+        "prefix": "llLinkStopSound",
+        "body": [
+           "llLinkStopSound({1:link});$0"
+        ],
+        "description": "llLinkStopSound( integer link );\n\n 92 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nStops the attached sound(s) currently playing, if they were started by llLoopSound"
+    },    
     "llEvade": {
         "prefix": "llEvade",
         "body": [
@@ -1278,6 +1302,13 @@
         ],
         "description": "llPlaySound( string sound, float volume );\n\n 86 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nPlays attached sound once at volume\n• string sound – a sound in the inventory of the prim this script is in or a UUID of a sound\n• float volume – between 0.0 (silent) and 1.0 (loud) (0.0 <= volume <= 1.0)\n"
     },
+    "llLinkPlaySound": {
+        "prefix": "llLinkPlaySound",
+        "body": [
+           "llLinkPlaySound(${1:link}, ${2:sound}, ${3:volume}, ${4:flags});$0"
+        ],
+        "description": "llLinkPlaySound( integer link, string sound, float volume, integer flags );\n\n 86 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nPlays attached sound once at volume\n• string sound – a sound in the inventory of the prim this script is in or a UUID of a sound\n• float volume – between 0.0 (silent) and 1.0 (loud) (0.0 <= volume <= 1.0)\n"
+    },    
     "llInstantMessage": {
         "prefix": "llInstantMessage",
         "body": [
@@ -1607,6 +1638,13 @@
         ],
         "description": "llEmail( string address, string subject, string message );\n\n 119 Function ID\n 20.0 Forced Delay\n 10.0 Energy\n\nSends an email to address with subject and message.\n• string address\n• string subject\n• string message\nThe entire message (including the address, subject and other miscellaneous fields) can't be longer than 4096 bytes combined.\n"
     },
+    "llTargetedEmail": {
+        "prefix": "llTargetedEmail",
+        "body": [
+           "llTargetedEmail(${1:target}, ${2:subject}, ${3:message});$0"
+        ],
+        "description": "llTargetedEmail( integer target, string subject, string message );\n\n 119 Function ID\n 20.0 Forced Delay\n 10.0 Energy\n\nSends an email to the owner (selected by target) of an object with subject and message."
+    },    
     "llInsertString": {
         "prefix": "llInsertString",
         "body": [
@@ -2209,12 +2247,27 @@
         ],
         "description": "string llGetDisplayName( key id );\n\n 360 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nReturns a string that is the non-unique display name of the avatar specified by id.\n• key id – avatar UUID that is in the same region or is otherwise known to the region\nid must specify a valid avatar key, present in or otherwise known to the sim in which the script is running, otherwise an empty string is returned. This function will still return a valid display name if the avatar is a child agent of the sim (i.e., in an adjacent sim, but presently able to see into the one the script is in), or for a short period after the avatar leaves the sim (specifically, when the client completely disconnects from the sim, either as a main or child agent).\n"
     },
+    "llGetInventoryAcquireTime": {
+        "prefix": "llGetInventoryAcquireTime",
+        "body": [
+           "llGetInventoryAcquireTime(${1:item})$0"
+        ],
+        "description": "string llGetInventoryAcquireTime( string item );\n\n 360 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nReturns a string with the timestamp that the item was added to the prim's inventory."
+    },
+    
     "llGetTextureScale": {
         "prefix": "llGetTextureScale",
         "body": [
            "llGetTextureScale(${1:face})$0"
         ],
         "description": "vector llGetTextureScale( integer face );\n\n 179 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nReturns a vector that is the texture scale on face (only the x and y components are used).\n• integer face – face number or ALL_SIDES\nIf face is ALL_SIDES then the function works on all sides."
+    },
+    "llGetVisualParams": {
+        "prefix": "llGetVisualParams",
+        "body": [
+           "llGetVisualParams(${1:agentid}, ${2:params})$0"
+        ],
+        "description": "list llGetVisualParams( key agentid, list params );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nReturns a list of the details for agentid requested in params."
     },
     "llRequestSimulatorData": {
         "prefix": "llRequestSimulatorData",
@@ -2244,6 +2297,14 @@
         ],
         "description": "llHTTPResponse( key request_id, integer status, string body );\n\n 348 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nResponds to request_id with status and body.\n• key request_id – A valid HTTP request key.\n• integer status – HTTP Status (200, 400, 404, etc)\n• string body – Contents of the response.\nThe response need not be made inside the http_request event but if it does not happen in a timely fashion the request will time out (within 25 seconds).\n"
     },
+    "llHash": {
+        "prefix": "llHash",
+        "body": [
+           "llHash(${1:val});$0"
+        ],
+        "description": "integer llHash( string val );\n\n 348 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nReturns a 32bit hash for the provided string. Returns 0 if the input string is empty."
+    },
+    
     "llList2Rot": {
         "prefix": "llList2Rot",
         "body": [
@@ -2629,6 +2690,20 @@
         ],
         "description": "Integer llReplaceAgentEnvironment( key agent_id, float transition, string environment );\n\n ? Function ID\n  Forced Delay\n  Energy\n\nThe llReplaceAgentEnvironment function overrides the current region and parcel environment seen by an agent. The new environment persists until the agent crosses to a new region or this function is called with the NULL_KEY or empty string in the environment parameter for the particular agent, doing so will strip all environmental settings applied to this agent as part of the experience. This function must be executed as part of an experience.Returns an Integer \n• key agent_id – The key for an agent in the region. The agent must be in the region and must be participating in the experience.\n• float transition – The number of seconds over which to transition to the new settings.\n• string environment – The name of an environmental setting in the object's inventory or the asset ID for an environment.\n"
     },
+    "llReplaceEnvironment": {
+        "prefix": "llReplaceEnvironment",
+        "body": [
+           "llReplaceEnvironment(${1:position}, ${2:environment}, ${3:track_no}, ${4:day_length}, ${5:day_offset});$0"
+        ],
+        "description": "Integer llReplaceEnvironment( vector position, string environment, integer track_no, integer day_length, integer day_offset );\n\n ? Function ID\n  Forced Delay\n  Energy\n\nThe llReplaceEnvironment function replaces the environment in a parcel or a region. Either for a single elevation track or the entire environment. The owner of the script must have permission to edit the environment on the destination parcel, or be an estate manage in the case of an entire region. In most cases errors are reported as a return value from the function (see table below). However, issues with the environment assets may be reported in the debug chat."
+    },   
+    "llSetEnvironment": {
+        "prefix": "llSetEnvironment",
+        "body": [
+           "llSetEnvironment(${1:position}, ${2:params});$0"
+        ],
+        "description": "Integer llSetEnvironment( vector position, list params );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nThis function overrides the environmental settings for a region or a parcel. The owner of the script must have permission to modify the environment on the parcel or be an estate manager to change the entire region."
+    },     
     "llSetSoundRadius": {
         "prefix": "llSetSoundRadius",
         "body": [
@@ -2636,6 +2711,13 @@
         ],
         "description": "llSetSoundRadius( float radius );\n\n 209 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nEstablishes a hard cut-off radius for audibility of scripted sounds (both attached and triggered).\n• float radius – in meters\n"
     },
+    "llLinkSetSoundRadius": {
+        "prefix": "llLinkSetSoundRadius",
+        "body": [
+           "llLinkSetSoundRadius(${1:link}, ${1:radius});$0"
+        ],
+        "description": "llLinkSetSoundRadius( integer link, float radius );\n\n 209 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nEstablishes a hard cut-off radius for audibility of scripted sounds (both attached and triggered).\n• float radius – in meters\n"
+    },    
     "llSetRegionPos": {
         "prefix": "llSetRegionPos",
         "body": [
@@ -2650,6 +2732,13 @@
         ],
         "description": "llSetSoundQueueing( integer queue );\n\n 208 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nSet whether attached sounds wait for the current sound to finish. If queue is TRUE, queuing is enabled, if FALSE queuing is disabled. Sound queuing is disabled by default.\n• integer queue – boolean, sound queuing: TRUE enables, FALSE (default) disables\n"
     },
+    "llLinkSetSoundQueueing": {
+        "prefix": "llLinkSetSoundQueueing",
+        "body": [
+           "llLinkSetSoundQueueing(${1:link}, ${2:queue});$0"
+        ],
+        "description": "llLinkSetSoundQueueing( integer link, integer queue );\n\n 208 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nSet whether attached sounds wait for the current sound to finish. If queue is TRUE, queuing is enabled, if FALSE queuing is disabled. Sound queuing is disabled by default.\n• integer queue – boolean, sound queuing: TRUE enables, FALSE (default) disables\n"
+    },    
     "llSetLocalRot": {
         "prefix": "llSetLocalRot",
         "body": [
@@ -2838,6 +2927,104 @@
            "llMessageLinked(${1:link}, ${2:num}, ${3:str}, ${4:id});$0"
         ],
         "description": "llMessageLinked( integer link, integer num, string str, key id );\n\n 164 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nThe purpose of this function is to allow scripts in the same object to communicate. It triggers a link_message event with the same parameters num, str, and id in all scripts in the prim(s) described by link.\n• integer link – Link number (0: unlinked, 1: root prim, >1: child prims and seated avatars) or a LINK_* flag, controls which prim(s) receive the link_message. \n• integer num – Value of the second parameter of the resulting link_message event.\n• string str – Value of the third parameter of the resulting link_message event.\n• key id – Value of the fourth parameter of the resulting link_message event.You can use id as a second string field. The sizes of str and id are only limited by available script memory."
+    },
+    "llLinear2sRGB": {
+        "prefix": "llLinear2sRGB",
+        "body": [
+           "llLinear2sRGB(${1:color});$0"
+        ],
+        "description": "vector llLinear2sRGB( vector color );\n\n 164 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nReturns a vector Transforms a color specified in linear RGB colorspace into the sRGB colorspace."
+    },
+    "llsRGB2Linear": {
+        "prefix": "llsRGB2Linear",
+        "body": [
+           "llsRGB2Linear(${1:srgb});$0"
+        ],
+        "description": "vector llsRGB2Linear( vector srgb );\n\n 164 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nReturns a vector Transforms a color specified in the sRGB colorspace to the linear RGB colorspace."
+    },    
+    "llLinkAdjustSoundVolume": {
+        "prefix": "llLinkAdjustSoundVolume",
+        "body": [
+           "llLinkAdjustSoundVolume(${1:link}, ${2:volume});$0"
+        ],
+        "description": "llLinkAdjustSoundVolume( integer link, float volume );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nAdjusts volume of attached sound."
+    },    
+    "llLinksetDataAvailable": {
+        "prefix": "llLinksetDataAvailable",
+        "body": [
+           "llLinksetDataAvailable();$0"
+        ],
+        "description": "integer llLinksetDataAvailable( );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nThe llLinksetDataAvailable returns the number of bytes available in the linkset's datastore."
+    },    
+    "llLinksetDataCountKeys": {
+        "prefix": "llLinksetDataCountKeys",
+        "body": [
+           "llLinksetDataCountKeys();$0"
+        ],
+        "description": "integer llLinksetDataCountKeys( );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nThe llLinksetDataCountKeys returns the number of unique keys that have been stored in the linkset's datastore."
+    },
+    "llLinksetDataDelete": {
+        "prefix": "llLinksetDataDelete",
+        "body": [
+           "llLinksetDataDelete(${1:name});$0"
+        ],
+        "description": "integer llLinksetDataDelete( string name );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nRemoves an unprotected name:value pair from the linkset's datastore. If the pair was created"
+    },
+    "llLinksetDataDeleteProtected": {
+        "prefix": "llLinksetDataDeleteProtected",
+        "body": [
+           "llLinksetDataDeleteProtected(${1:name}, ${2:pass});$0"
+        ],
+        "description": "integer llLinksetDataDeleteProtected( string name, string pass );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nThe llLinksetDataDeleteProtected function erases a protected name:value pair from the linkset's datastore."
+    },
+    "llLinksetDataFindKeys": {
+        "prefix": "llLinksetDataFindKeys",
+        "body": [
+           "llLinksetDataFindKeys(${1:pattern}, ${2:start}, ${3:count});$0"
+        ],
+        "description": "list llLinksetDataFindKeys( string pattern, integer start, integer count );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nThe llLinksetDataFindKeys function returns a list of up to count keys from the datastore that match pattern, starting at the one indicated by start. If count is less than 1, then all keys between start and the end which match pattern are returned. If count minus start exceeds the number of matching keys, the returned list will be shorter than count, down to a zero-length list if start equals or exceeds the number of matching keys."
+    },
+    "llLinksetDataListKeys": {
+        "prefix": "llLinksetDataListKeys",
+        "body": [
+           "llLinksetDataListKeys(${1:start}, ${2:count});$0"
+        ],
+        "description": "list llLinksetDataListKeys( integer start, integer count );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nThe llLinksetDataListKeys function returns a list of up to count keys in the datastore, starting at the one indicated by start. If count is less than 1, then all keys between start and the end are returned. If count minus start exceeds the total number of keys, the returned list will be shorter than count, down to a zero-length list if start equals or exceeds the total number of keys."
+    },
+    "llLinksetDataRead": {
+        "prefix": "llLinksetDataRead",
+        "body": [
+           "llLinksetDataRead(${1:name});$0"
+        ],
+        "description": "string llLinksetDataRead( string name );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nReads an unprotected name:value pair from the linkset's datastore."
+    },
+    "llLinksetDataReadProtected": {
+        "prefix": "llLinksetDataReadProtected",
+        "body": [
+           "llLinksetDataReadProtected(${1:name}, ${2:pass});$0"
+        ],
+        "description": "string llLinksetDataReadProtected( string name, string pass );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nReads a protected name:value pair from the datastore."
+    },
+    "llLinksetDataReset": {
+        "prefix": "llLinksetDataReset",
+        "body": [
+           "llLinksetDataReset();$0"
+        ],
+        "description": "llLinksetDataReset( );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nThe llLinksetDataReset function erases all name:value pairs stored in the linkset's datastore. When this function is called the linkset_data event is triggered in all scripts running in the linkset with an action of LINKSETDATA_RESET."
+    },
+    "llLinksetDataWrite": {
+        "prefix": "llLinksetDataWrite",
+        "body": [
+           "llLinksetDataWrite(${1:name}, ${2:value});$0"
+        ],
+        "description": "integer llLinksetDataWrite( string name, string value );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nCreates or updates an unprotected name:value pair from the linkset's datastore."
+    },
+    "llLinksetDataWriteProtected": {
+        "prefix": "llLinksetDataWriteProtected",
+        "body": [
+           "llLinksetDataWriteProtected(${1:name}, ${2:value}, ${3:pass});$0"
+        ],
+        "description": "integer llLinksetDataWriteProtected( string name, string value, string pass );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nCreates or updates a protected name:value pair from the linkset's datastore. Further attempts to read, write or update the name:value pair must use the protected versions of those functions and must supply the same string that was used in pass."
     },
     "llAxisAngle2Rot": {
         "prefix": "llAxisAngle2Rot",
@@ -3469,13 +3656,20 @@
         ],
         "description": "llPassCollisions( integer pass );\n\n 166 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nSets the pass-collisions prim attribute.\n• integer pass – PASS_* flag \nWhether Collisions are passed to the root prim depends not only on which PASS_* flag is selected, but may also depend on if there is a script that in the prim that handles one of the collision events. For this reason most users will want to use PASS_ALWAYS or PASS_NEVER as they do not have this variable behavior.\nThe default value for this attribute is PASS_IF_NOT_HANDLED."
     },
+    "llOrd": {
+        "prefix": "llOrd",
+        "body": [
+           "llOrd(${1:val}, ${2:index});$0"
+        ],
+        "description": "llOrd( string val, integer index );\n\n 292 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nCalculate the ordinal value for a character in a string."
+    },
     "llOwnerSay": {
         "prefix": "llOwnerSay",
         "body": [
            "llOwnerSay(${1:msg});$0"
         ],
         "description": "llOwnerSay( string msg );\n\n 292 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nSays msg to the object's owner only, if the owner is currently in the same region.\n• string msg – message to be transmitted\n"
-    },
+    },    
     "llWind": {
         "prefix": "llWind",
         "body": [
@@ -3749,6 +3943,13 @@
         ],
         "description": "string llSHA1String( string src );\n\n 343 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nReturns a string of 40 hex characters that is the SHA-1 security hash of src.\n• string src\n"
     },
+    "llSHA256String": {
+        "prefix": "llSHA256String",
+        "body": [
+           "llSHA256String(${1:src})$0"
+        ],
+        "description": "string llSHA256String( string src );\n\n 343 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nReturns a string of 64 hex characters that is the SHA-256 security hash of src."
+    },    
     "llRot2Angle": {
         "prefix": "llRot2Angle",
         "body": [
@@ -3811,6 +4012,13 @@
            "llEjectFromLand(${1:avatar});$0"
         ],
         "description": "llEjectFromLand( key avatar );\n\n 213 Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nEjects avatar from the parcel.\n• key avatar – avatar UUID that is in the same regionGenerally, the object owner must also be the land owner but there is an exception for land deeded to a group for group members with the \"Eject and freeze Residents on parcels\" ability. See #Ownership Limitations for details."
+    },
+    "llGetObjectLinkKey": {
+        "prefix": "llGetObjectLinkKey",
+        "body": [
+           "llGetObjectLinkKey(${1:object_id}, ${2:link});$0"
+        ],
+        "description": " key llGetObjectLinkKey( key object_id, integer link );\n\n ? Function ID\n 0.0 Forced Delay\n 10.0 Energy\n\nReturns the key of the linked prim link in the linkset identified by object_id"
     },
     "llGetObjectPermMask": {
         "prefix": "llGetObjectPermMask",
@@ -5625,6 +5833,69 @@
            "LINK_THIS$0"
         ],
         "description": "refers to the prim the script is in"
+    },
+    "LINKSETDATA_OK": {
+        "prefix": "LINKSETDATA_OK",
+        "body": [
+           "LINKSETDATA_OK$0"
+        ],
+        "description": "The name:value pair was written to the datastore."
+    },
+    "LINKSETDATA_EMEMORY": {
+        "prefix": "LINKSETDATA_EMEMORY",
+        "body": [
+           "LINKSETDATA_EMEMORY$0"
+        ],
+        "description": "A name:value pair was too large to write to the linkset datastore."
+    },
+    "LINKSETDATA_ENOKEY": {
+        "prefix": "LINKSETDATA_ENOKEY",
+        "body": [
+           "LINKSETDATA_ENOKEY$0"
+        ],
+        "description": "The name supplied to llLinksetDataWrite was empty."
+    },
+    "LINKSETDATA_EPROTECTED": {
+        "prefix": "LINKSETDATA_EPROTECTED",
+        "body": [
+           "LINKSETDATA_EPROTECTED$0"
+        ],
+        "description": "The name:value pair has been protected from overwrite in the linkset's datastore."
+    },
+    "LINKSETDATA_NOTFOUND": {
+        "prefix": "LINKSETDATA_NOTFOUND",
+        "body": [
+           "LINKSETDATA_NOTFOUND$0"
+        ],
+        "description": "The named key could not be found in the linkset's datastore when attempting to delete it."
+    },
+    "LINKSETDATA_NOUPDATE": {
+        "prefix": "LINKSETDATA_NOUPDATE",
+        "body": [
+           "LINKSETDATA_NOUPDATE$0"
+        ],
+        "description": "The name:value stored in the linkset was not changed by the write operation because the value stored matches the value written."
+    },
+    "LINKSETDATA_RESET": {
+        "prefix": "LINKSETDATA_RESET",
+        "body": [
+           "LINKSETDATA_RESET$0"
+        ],
+        "description": "The linkset's datastore has been cleared by a call to llLinksetDataReset."
+    },
+    "LINKSETDATA_UPDATE": {
+        "prefix": "LINKSETDATA_UPDATE",
+        "body": [
+           "LINKSETDATA_UPDATE$0"
+        ],
+        "description": "A key in the linkset's datastore has been assigned a new value with llLinksetDataWrite"
+    },
+    "LINKSETDATA_DELETE": {
+        "prefix": "LINKSETDATA_DELETE",
+        "body": [
+           "LINKSETDATA_DELETE$0"
+        ],
+        "description": "A key in the linkset's datastore has been deleted. Either through a call to llLinksetDataDelete or llLinksetDataWrite with an empty value."
     },
     "LIST_STAT_GEOMETRIC_MEAN": {
         "prefix": "LIST_STAT_GEOMETRIC_MEAN",
@@ -8188,9 +8459,6 @@
         ],
         "description": "ZERO_VECTOR"
     },
-
-
-
     "XP_ERROR_NONE": {
         "prefix": "XP_ERROR_NONE",
         "body": [
@@ -8324,9 +8592,6 @@
         ],
         "description": "The request for experience permissions was ignored."
     },
-
-
-
     "CHARACTER_CMD_JUMP": {
         "prefix": "CHARACTER_CMD_JUMP",
         "body": [
@@ -8348,9 +8613,6 @@
         ],
         "description": "Stops any current pathfinding operation."
     },
-
-
-    
     "GCNP_RADIUS": {
         "prefix": "GCNP_RADIUS",
         "body": [
@@ -8365,10 +8627,6 @@
         ],
         "description": "Specifies whether the test should use the static or dynamic nav mesh. In the static case, all dynamic obstacles are ignored.\n- Parameters: [ integer use_static_mesh ]\n- Default: [ FALSE ]"
     },
-
-
-
-    
     "PURSUIT_OFFSET": {
         "prefix": "PURSUIT_OFFSET",
         "body": [
@@ -8404,9 +8662,6 @@
         ],
         "description": "Defines approximately how close the character must be to the current goal to consider itself to be at the desired position. The valid range is from 0.25 to 10m.\n- Default Value: Default is proportional to character size\n- Usage: [PURSUIT_GOAL_TOLERANCE, float tolerance]"
     },
-
-
-
     "PRIM_MEDIA_CONTROLS": {
         "prefix": "PRIM_MEDIA_CONTROLS",
         "body": [
@@ -8428,9 +8683,6 @@
         ],
         "description": "PRIM_MEDIA_CONTROLS_MINI"
     },
-
-
-
     "AVOID_CHARACTERS": {
         "prefix": "AVOID_CHARACTERS",
         "body": [
@@ -8452,9 +8704,6 @@
         ],
         "description": "AVOID_NONE"
     },
-    
-
-
     "SKY_TRACKS": {
         "prefix": "SKY_TRACKS",
         "body": [
@@ -8623,10 +8872,6 @@
         ],
         "description": "integer day_length, integer day_offset, float secs_since_midnight\n\nCurrent time and day information\n- day_length: Number of seconds in the environments day cycle.\n- day_offset: Number of seconds day cycle is offset from GMT.\n- secs_since_midnight: Number of seconds elapsed since the last day cycle midnight."
     },
-
-
-
-    
     "ENV_NOT_EXPERIENCE": {
         "prefix": "ENV_NOT_EXPERIENCE",
         "body": [
@@ -8662,9 +8907,6 @@
         ],
         "description": "The experience has not been enabled or can not run on the land."
     },
-    
-
-
     "WANDER_PAUSE_AT_WAYPOINTS": {
         "prefix": "WANDER_PAUSE_AT_WAYPOINTS",
         "body": [
@@ -8672,9 +8914,6 @@
         ],
         "description": "Whether the character should pause after reaching each wander waypoint."
     },
-
-
-
     "PU_SLOWDOWN_DISTANCE_REACHED": {
         "prefix": "PU_SLOWDOWN_DISTANCE_REACHED",
         "body": [
@@ -8766,9 +9005,6 @@
         ],
         "description": "Other failure."
     },
-
-
-
     "DENSITY": {
         "prefix": "DENSITY",
         "body": [
@@ -8797,9 +9033,6 @@
         ],
         "description": "Indicates that gravity_multiplier parameter is enabled and will override the previous value."
     },
-
-
-
     "LINDENDOLLAR_INSUFFICIENTFUNDS": {
         "prefix": "LINDENDOLLAR_INSUFFICIENTFUNDS",
         "body": [
